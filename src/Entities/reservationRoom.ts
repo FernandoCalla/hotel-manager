@@ -7,16 +7,16 @@ export class ReservationRoom extends BaseEntity{
     @PrimaryGeneratedColumn()
     id : number
     @Column()
-    checkIn: Date;
+    checkIn: string;
     @Column()
-    checkOut: Date;
-    @Column()
+    checkOut: string;
+    @Column({default:0})
     partialPrice:number
     @Column({
         default:true
     })
     status:boolean
-    @Column()
+    @Column({default:0})
     numberOfNights:number
     @ManyToOne(() => Reservation, (reservation) => reservation.reservations)
     reservation: Reservation
