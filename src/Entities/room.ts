@@ -12,8 +12,10 @@ export class Room extends BaseEntity{
     bedsNumber:number
     @Column()
     roomFloor:number
-    @Column()
+    @Column({default:true})
     privateBathroom:boolean
+    @Column({default:true})
+    state:boolean
     @OneToMany(() => ReservationRoom, (reservationroom) => reservationroom.reservation) // note: we will create author property in the Photo class below
     reservations: ReservationRoom[]
     @CreateDateColumn()

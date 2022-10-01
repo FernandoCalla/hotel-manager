@@ -7,7 +7,7 @@ export class ReservationRoomDays extends BaseEntity{
     @PrimaryGeneratedColumn()
     id : number
     @Column()
-    day: Date;
+    day: string;
     @Column()
     partialPriceDay:number
     @ManyToOne(() => ReservationRoom, (reservationroom) => reservationroom.reservationRoomDays)
