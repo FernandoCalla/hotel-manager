@@ -10,7 +10,7 @@ export class ReservationRoom extends BaseEntity{
     checkIn: string;
     @Column()
     checkOut: string;
-    @Column({default:0})
+    @Column({type: "float",default:0})
     partialPrice:number
     @Column({
         default:true

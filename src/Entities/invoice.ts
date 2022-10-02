@@ -5,7 +5,7 @@ import { ReservationRoom } from './reservationRoom'
 export class Invoice extends BaseEntity{
     @PrimaryGeneratedColumn()
     id : number
-    @Column()
+    @Column({type: "float",default:0})
     totalPrice:number
     @CreateDateColumn()
     createdAt: Date;

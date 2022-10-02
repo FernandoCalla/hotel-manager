@@ -11,7 +11,7 @@ export class Reservation extends BaseEntity{
         default:0
     }) 
     state:number // consider type number because a reservation has 3 status, 0 to Pendiente, 1 to Pagado and 2 to Eliminado.
-    @Column({default:0})
+    @Column({type: "float",default:0})
     totalPrice:number
     @ManyToOne(() => Client, (client) => client.reservations)
     client: Client
