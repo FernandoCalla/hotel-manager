@@ -1,22 +1,6 @@
-﻿# hotel-manager
- ## Pasos para correr el proyecto
- - paso 1: docker-compose build
- - paso 2: docker-compose run app npm run  m:gen -- src/migrations/migration
- - paso 3: docker-compose run app npm run  m:run
- - paso 4: docker-compose up
+# Gestor de Reservas para Hoteles 
  
- 
- ## Para poder crear una reserva usar: 
- - 1.Crear cliente
- - 2.Crear habitaciones
- - 3.Crear metodos de pago
- - 4.Usar el modulo general de creacion de reserva que se encuentra en procesos
- - 5.Se puede eliminar
- - 6.Se puede pagar
- 
- # Gestor de Rservas para Hoteles 
- 
-API orientada a la gestionde hoteles , para controlar el proceso de reservas , sus clientes e instalaciones.
+API orientada a la gestion de hoteles , para controlar el proceso de reservas , sus clientes e instalaciones.
 
 
 ## Instalación 
@@ -62,6 +46,7 @@ Se consideró la tabla cliente para realizar el control de todos los clientes de
  - /clientes GET
  - /cliente/identificador/<dni> GET
 ``` 
+el ultimo endpoint permite buscar un usuario por su numero de dni o pasaporte
 ### Habitaciones
 Se consideró la tabla habitaciones para realizar el control de todas habitaciones del hotel considerando un estado para determinar si la habitacion se encuentra disponible para su uso o si se encuentra en mantenimiento.Inlucye los siguiente endpoints:
 * CRUD
@@ -76,6 +61,7 @@ Se consideró la tabla habitaciones para realizar el control de todas habitacion
  - /rooms GET
  - /rooms/active GET
 ``` 
+el ultimo endpoint facilitara al usuario a seleccionar solo entre las habitacions en funcionamiento.
 ### Metodos de Pago
 Se consideró una tabla para metodos de pago ya que estos pueden crecer con el tiempo, pueden aparecer mas tablas , y aplicando normalizacion a la base de datos se opto por considerar una tabla independiete, tambien se considero un estado para poder activar y desactivar metodos de pago. Incluye los siguiente endpoints:
 * CRUD
@@ -90,6 +76,7 @@ Se consideró una tabla para metodos de pago ya que estos pueden crecer con el t
  - /payment-methods GET
  - /payment-methods/active GET
 ``` 
+el ultimo endpoint permite ver solo los metodos de pago disponibles para la generacion de reservas.
 ### Reservacion
 Se consideró una tabla que controle de manera general la reservacion , esta reservacion contiene el monto total , el cliente y el metodo de pago.
 * ENDPOINTS
@@ -122,6 +109,15 @@ Se crearon 3 procesos principales.
  - /proceso/eliminar-reserva/<id_reserva> PUT
 ``` 
 ## Flujo
+* Para poder crear una reserva y pagarla o eliminarla este es el flujo resumido: 
+ - 1.Crear cliente
+ - 2.Crear habitaciones
+ - 3.Crear metodos de pago
+ - 4.Usar el modulo general de creacion de reserva que se encuentra en procesos o usar los endpoints independientes para crear por pasos.
+ - 5.Se puede eliminar
+ - 6.Se puede pagar
+ 
+* Flujo detallado
 
 1. Como primer paso debemos crear habitaciones, metodos de pago y clientes.
 ```
