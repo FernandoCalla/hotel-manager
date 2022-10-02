@@ -110,12 +110,12 @@ Se crearon 3 procesos principales.
 ``` 
 ## Flujo
 * Para poder crear una reserva y pagarla o eliminarla este es el flujo resumido: 
- - 1.Crear cliente
- - 2.Crear habitaciones
- - 3.Crear metodos de pago
- - 4.Usar el modulo general de creacion de reserva que se encuentra en procesos o usar los endpoints independientes para crear por pasos.
- - 5.Se puede eliminar
- - 6.Se puede pagar
+   1.Crear cliente
+   2.Crear habitaciones
+   3.Crear metodos de pago
+   4.Usar el modulo general de creacion de reserva que se encuentra en procesos o usar los endpoints independientes para crear por pasos.
+   5.Se puede eliminar
+   6.Se puede pagar
  
 * Flujo detallado
 
@@ -126,67 +126,67 @@ Se crearon 3 procesos principales.
  - /cliente POST
 ``` 
 2. Como segunda paso , para que se pueda crear una reserva debemos validar que el cliente este registrado , de no ser el caso se debera registrar al cliente, para ello consideramos los siguientes endpoints.
-  * Validar si un cliente ya esta registrado por su DNI o numero de pasaporte  
-   ```
-    /cliente/identificador/<dni> GET
-   ``` 
-  * Si no esta registrado , puede usar el siguiente endpoint para registrar un nuevo cliente.
-  ```
-    /cliente POST
-   ``` 
+   * Validar si un cliente ya esta registrado por su DNI o numero de pasaporte  
+     ```
+      /cliente/identificador/<dni> GET
+     ``` 
+   * Si no esta registrado , puede usar el siguiente endpoint para registrar un nuevo cliente.
+     ```
+       /cliente POST
+      ``` 
 3. Para el proceso de creacion de reservas consideramos dos formas de creacion , la primera sera de manera directa y la segunda por partes.
- * Manera directa.
-   * Se utiliza el siguiente endpoint.
-   ```
-   /proceso/crear-reserva-completa POST
-   ```
-   A este endpoint se le debe pasar un json con todos los datos completos para generar una reserva que incluyen:
-   ```
-    {
-    "client":3, //id de cliente
-    "paymentMethod":2, //id del metodo de pago
-    "listRoomsReservations":[ //Este arreglo alamacena todas las habitaciones que queremos agregar a la reserva y su respectivas fechas
-        {
-            "checkIn":"05/10/2022", //fecha de ingreso
-            "checkOut":"07/10/2022", //fecha de salida
-            "room":3 //id habitacion
-        },
-        {
-            "checkIn":"12/10/2022", //fecha de ingreso
-            "checkOut":"17/10/2022", //fecha de salida
-            "room":4 //id habitacion
-        }
-    ]
-   }
-   ```
-   El proceso generar los registros necesarios en cada tabla de acuerdo a los datos enviados.
- * Por pasos.
-   * Generar la reserva general.
-   ```
-   /reservation POST
-   
-   Body: 
-   
-   {
-    "client":3,  //id cliente
-    "paymentMethod":2 //id metodo de pago
-   }
-   
-   ```   
-   * Seleccionar la habitacion y colocar las fechas para dicha habitacion, esta sera enlazada con la reserva general, cabe recalcar que se puede seleccionar mas de una habitacion para una reserva general por lo cual este paso se puede repetir de acuerdo a la necesidad del usuario , lo unico que se necesita es recordar el id de la reserva general.
-   ```
-   /reservation-room POST
-   
-   Body: 
-   
-   {
-    "checkIn":"01/10/2022", //fecha de registro
-    "checkOut":"04/10/2022", //fecha de salida
-    "reservation":1, // id de la reservacion general
-    "room":3 //id de la habitacion
-   }
-   
-   ``` 
+   * Manera directa.
+     * Se utiliza el siguiente endpoint.
+      ```
+      /proceso/crear-reserva-completa POST
+      ```
+      A este endpoint se le debe pasar un json con todos los datos completos para generar una reserva que incluyen:
+      ```
+       {
+       "client":3, //id de cliente
+       "paymentMethod":2, //id del metodo de pago
+       "listRoomsReservations":[ //Este arreglo alamacena todas las habitaciones que queremos agregar a la reserva y su respectivas fechas
+           {
+               "checkIn":"05/10/2022", //fecha de ingreso
+               "checkOut":"07/10/2022", //fecha de salida
+               "room":3 //id habitacion
+           },
+           {
+               "checkIn":"12/10/2022", //fecha de ingreso
+               "checkOut":"17/10/2022", //fecha de salida
+               "room":4 //id habitacion
+           }
+       ]
+      }
+      ```
+      El proceso generar los registros necesarios en cada tabla de acuerdo a los datos enviados.
+  * Por pasos.
+    * Generar la reserva general.
+      ```
+      /reservation POST
+
+      Body: 
+
+      {
+       "client":3,  //id cliente
+       "paymentMethod":2 //id metodo de pago
+      }
+
+      ```   
+    * Seleccionar la habitacion y colocar las fechas para dicha habitacion, esta sera enlazada con la reserva general, cabe recalcar que se puede seleccionar mas de una habitacion para una reserva general por lo cual este paso se puede repetir de acuerdo a la necesidad del usuario , lo unico que se necesita es recordar el id de la reserva general.
+      ```
+      /reservation-room POST
+
+      Body: 
+
+      {
+       "checkIn":"01/10/2022", //fecha de registro
+       "checkOut":"04/10/2022", //fecha de salida
+       "reservation":1, // id de la reservacion general
+       "room":3 //id de la habitacion
+      }
+
+    ``` 
 
    
    
