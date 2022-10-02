@@ -21,7 +21,7 @@ API orientada a la gestionde hoteles , para controlar el proceso de reservas , s
 
 ## Instalación 
 
-Para poder correr este proyecto de manera local debe clonar el proyecto y despues seguir los siguientes pasos.
+Para poder correr este proyecto de manera local debe clonar el proyecto y despues colocar los siguientes comandos listados en pasos.
 
 
 ```
@@ -33,21 +33,30 @@ Para poder correr este proyecto de manera local debe clonar el proyecto y despue
 
 ## Documentación
 
-Aquí puedes compartir la documentación adicional del proyecto, por ejemplo un link a una Wiki.
-
-## Versionado
-
-En esta sección puedes colocar un link a tus -release notes- en GitHub.
+El API fue desarrollado con las siguientes herramientas.
+* Node
+* Express
+* TypeORM
+* Typescript
+* Postgresql
 
 ## Autores
 
-Realiza un listado de todas las personas que participaron en el proyecto y coloca un link a cada uno de sus perfiles.
+@FernandoCalla
 
-## Licencia
+## Endpoints
 
-Si usas en tu proyecto alguna licencia es bueno especificar cual. Por ejemplo: El proyecto es open-source bajo licencia MIT. 
+Se desarrollaron endpoints de acuerdo a las tablas y procesos que se creen que son convenientes para el proceso.
+### Cliente
+### Habitaciones
+### Metodos de Pago
+### Reservacion
+### Reservacion con habitacion
+### Procesos
 
-## Créditos
+## Flujo
 
 En esta sección puedes colocar comentarios adicionales, dar agradecimientos o invitar a tus lectores a que visiten otros de tus proyectos.
+
+##Aportaciones Adicionales
 
