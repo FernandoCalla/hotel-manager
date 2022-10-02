@@ -117,13 +117,61 @@ Se crearon 3 procesos principales.
 ```
  - /proceso/pagar-reserva/<id_reserva> PUT
 ``` 
-3. El tercero nos permite eliminar una reserva(consideramos eliminar al cambio de estado a eliminado).
+3. El tercero nos permite eliminar una reserva (consideramos eliminar al cambio de estado a eliminado).
 ```
  - /proceso/eliminar-reserva/<id_reserva> PUT
 ``` 
 ## Flujo
 
-En esta sección puedes colocar comentarios adicionales, dar agradecimientos o invitar a tus lectores a que visiten otros de tus proyectos.
+1. Como primer paso debemos crear habitaciones, metodos de pago y clientes.
+```
+ - /room POST
+ - /payment-method POST
+ - /cliente POST
+``` 
+2. Como segunda paso , para que se pueda crear una reserva debemos validar que el cliente este registrado , de no ser el caso se debera registrar al cliente, para ello consideramos los siguientes endpoints.
+  * Validar si un cliente ya esta registrado por su DNI o numero de pasaporte  
+   ```
+    /cliente/identificador/<dni> GET
+   ``` 
+  * Si no esta registrado , puede usar el siguiente endpoint para registrar un nuevo cliente.
+  ```
+    /cliente POST
+   ``` 
+3. Para el proceso de creacion de reservas consideramos dos formas de creacion , la primera sera de manera directa y la segunda por partes.
+ * Manera directa.
+   * Se utiliza el siguiente endpoint.
+   ```
+   /proceso/crear-reserva-completa POST
+   ```
+   A este endpoint se le debe pasar un json con todos los datos completos para generar una reserva que incluyen:
+   ```
+    {
+    "client":3, //id de cliente
+    "paymentMethod":2, //id del metodo de pago
+    "listRoomsReservations":[ //Este arreglo alamacena todas las habitaciones que queremos agregar a la reserva y su respectivas fechas
+        {
+            "checkIn":"05/10/2022", //fecha de ingreso
+            "checkOut":"07/10/2022", //fecha de salida
+            "room":3 //id habitacion
+        },
+        {
+            "checkIn":"12/10/2022", //fecha de ingreso
+            "checkOut":"17/10/2022", //fecha de salida
+            "room":4 //id habitacion
+        }
+    ]
+}
+   ```
+ * Por pasos.
+4. Para poder pagar utilizamos el siguiente endpoint.
+```
+ - /proceso/pagar-reserva/<id_reserva> PUT
+``` 
+5. Si se desea eliminar se puede utilizar el siguiente endpoint.
+```
+ - /proceso/eliminar-reserva/<id_reserva> PUT
+``` 
 
 ##Aportaciones Adicionales
 
