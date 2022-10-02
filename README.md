@@ -439,7 +439,7 @@ Se crearon 3 procesos principales.
  - /proceso/eliminar-reserva/<id_reserva> PUT
 ``` 
 
-##Aportaciones Adicionales
+## Aportaciones Adicionales
 * Se desarrolló un modulo para retornar el listado de dias entre dos fechas, con validaciones de años bisiesto , meses con 31 y 30 dias , y los casos de febrero.
 ```
  export function calcularListadoDeDias(checkIn:string,checkOut:string,numeroNoches:number,precio:number){
@@ -510,7 +510,7 @@ export function esBisiesto (year:number){
   };
 ```
 
-##Futuras aportaciones
+## Futuras aportaciones
 - Validacion de fechas por habitacion para ver disponibilidad o no. 
 - Etc. 
 
