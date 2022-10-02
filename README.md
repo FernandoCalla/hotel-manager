@@ -96,7 +96,7 @@ Se consideró una tabla que controle de manera general la reservacion , esta res
 ```
  - /reservation POST
  - /reservations GET
- - /reservations/cliente/<dni_cliente>
+ - /reservations/cliente/<dni_cliente> GET
 ``` 
 ### Reservacion con habitacion
 Se consideró una tabla que controle las reservaciones por habitacion, esto quiere decir que para una reservacion general se le pueden asociar sub reservaciones por cada cuarto y con fechas independientes , esta reservacion contiene un monto parcial producto del precio del cuarto y los noches de reserva.
@@ -161,10 +161,280 @@ Se crearon 3 procesos principales.
             "room":4 //id habitacion
         }
     ]
-}
+   }
    ```
+   El proceso generar los registros necesarios en cada tabla de acuerdo a los datos enviados.
  * Por pasos.
-4. Para poder pagar utilizamos el siguiente endpoint.
+   * Generar la reserva general.
+   ```
+   /reservation POST
+   
+   Body: 
+   
+   {
+    "client":3,  //id cliente
+    "paymentMethod":2 //id metodo de pago
+   }
+   
+   ```   
+   * Seleccionar la habitacion y colocar las fechas para dicha habitacion, esta sera enlazada con la reserva general, cabe recalcar que se puede seleccionar mas de una habitacion para una reserva general por lo cual este paso se puede repetir de acuerdo a la necesidad del usuario , lo unico que se necesita es recordar el id de la reserva general.
+   ```
+   /reservation-room POST
+   
+   Body: 
+   
+   {
+    "checkIn":"01/10/2022", //fecha de registro
+    "checkOut":"04/10/2022", //fecha de salida
+    "reservation":1, // id de la reservacion general
+    "room":3 //id de la habitacion
+   }
+   
+   ``` 
+
+   
+   
+4. Podemos hacer consultas de las reservas de un cliente con el siguiente endpoint:
+   ```
+   /reservations/cliente/<dni_cliente>
+       
+   ``` 
+   Obtendremos un resultado como:
+   ```
+   {
+    "id": 3,
+    "identityNumber": 72712946,
+    "firstname": "Fer",
+    "lastname": "Calla",
+    "email": "fernando@gmail.com",
+    "phonenumber": "+51 920011083",
+    "createdAt": "2022-10-01T03:10:33.562Z",
+    "updatedAt": "2022-10-01T03:10:33.562Z",
+    "reservations": [
+        {
+            "id": 3,
+            "state": 2,
+            "totalPrice": 0,
+            "createdAt": "2022-10-02T01:45:29.487Z",
+            "updatedAt": "2022-10-02T01:52:39.386Z",
+            "client": {
+                "id": 3,
+                "identityNumber": 72712946,
+                "firstname": "Fer",
+                "lastname": "Calla",
+                "email": "fernando@gmail.com",
+                "phonenumber": "+51 920011083",
+                "createdAt": "2022-10-01T03:10:33.562Z",
+                "updatedAt": "2022-10-01T03:10:33.562Z"
+            },
+            "paymentMethod": {
+                "id": 2,
+                "denomination": "Deposito",
+                "paymentMethodStatus": true,
+                "createdAt": "2022-10-01T19:48:41.421Z",
+                "updatedAt": "2022-10-01T19:48:41.421Z"
+            },
+            "reservations": [
+                {
+                    "id": 6,
+                    "checkIn": "01/10/2022",
+                    "checkOut": "04/10/2022",
+                    "partialPrice": 0,
+                    "status": true,
+                    "numberOfNights": 3,
+                    "createdAt": "2022-10-02T01:45:29.523Z",
+                    "updatedAt": "2022-10-02T01:45:29.523Z",
+                    "reservationRoomDays": [
+                        {
+                            "id": 6,
+                            "day": "2/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.703Z",
+                            "updatedAt": "2022-10-02T01:45:29.703Z"
+                        },
+                        {
+                            "id": 5,
+                            "day": "3/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.701Z",
+                            "updatedAt": "2022-10-02T01:45:29.701Z"
+                        },
+                        {
+                            "id": 4,
+                            "day": "1/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.550Z",
+                            "updatedAt": "2022-10-02T01:45:29.550Z"
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "checkIn": "12/10/2022",
+                    "checkOut": "18/10/2022",
+                    "partialPrice": 0,
+                    "status": true,
+                    "numberOfNights": 6,
+                    "createdAt": "2022-10-02T01:45:29.705Z",
+                    "updatedAt": "2022-10-02T01:45:29.705Z",
+                    "reservationRoomDays": [
+                        {
+                            "id": 12,
+                            "day": "17/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.812Z",
+                            "updatedAt": "2022-10-02T01:45:29.812Z"
+                        },
+                        {
+                            "id": 11,
+                            "day": "16/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.739Z",
+                            "updatedAt": "2022-10-02T01:45:29.739Z"
+                        },
+                        {
+                            "id": 10,
+                            "day": "15/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.738Z",
+                            "updatedAt": "2022-10-02T01:45:29.738Z"
+                        },
+                        {
+                            "id": 9,
+                            "day": "14/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.737Z",
+                            "updatedAt": "2022-10-02T01:45:29.737Z"
+                        },
+                        {
+                            "id": 8,
+                            "day": "13/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.736Z",
+                            "updatedAt": "2022-10-02T01:45:29.736Z"
+                        },
+                        {
+                            "id": 7,
+                            "day": "12/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:45:29.734Z",
+                            "updatedAt": "2022-10-02T01:45:29.734Z"
+                        }
+                    ]
+                }
+            ],
+            "invoice": {
+                "id": 1,
+                "totalPrice": 0,
+                "createdAt": "2022-10-02T01:46:24.192Z",
+                "updatedAt": "2022-10-02T01:46:24.192Z"
+            }
+        },
+        {
+            "id": 4,
+            "state": 0,
+            "totalPrice": 0,
+            "createdAt": "2022-10-02T01:50:50.842Z",
+            "updatedAt": "2022-10-02T01:50:51.067Z",
+            "client": {
+                "id": 3,
+                "identityNumber": 72712946,
+                "firstname": "Fer",
+                "lastname": "Calla",
+                "email": "fernando@gmail.com",
+                "phonenumber": "+51 920011083",
+                "createdAt": "2022-10-01T03:10:33.562Z",
+                "updatedAt": "2022-10-01T03:10:33.562Z"
+            },
+            "paymentMethod": {
+                "id": 2,
+                "denomination": "Deposito",
+                "paymentMethodStatus": true,
+                "createdAt": "2022-10-01T19:48:41.421Z",
+                "updatedAt": "2022-10-01T19:48:41.421Z"
+            },
+            "reservations": [
+                {
+                    "id": 8,
+                    "checkIn": "05/10/2022",
+                    "checkOut": "07/10/2022",
+                    "partialPrice": 0,
+                    "status": true,
+                    "numberOfNights": 2,
+                    "createdAt": "2022-10-02T01:50:50.875Z",
+                    "updatedAt": "2022-10-02T01:50:50.875Z",
+                    "reservationRoomDays": [
+                        {
+                            "id": 14,
+                            "day": "6/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:50:50.999Z",
+                            "updatedAt": "2022-10-02T01:50:50.999Z"
+                        },
+                        {
+                            "id": 13,
+                            "day": "5/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:50:50.901Z",
+                            "updatedAt": "2022-10-02T01:50:50.901Z"
+                        }
+                    ]
+                },
+                {
+                    "id": 9,
+                    "checkIn": "12/10/2022",
+                    "checkOut": "17/10/2022",
+                    "partialPrice": 0,
+                    "status": true,
+                    "numberOfNights": 5,
+                    "createdAt": "2022-10-02T01:50:51.057Z",
+                    "updatedAt": "2022-10-02T01:50:51.057Z",
+                    "reservationRoomDays": [
+                        {
+                            "id": 19,
+                            "day": "16/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:50:51.235Z",
+                            "updatedAt": "2022-10-02T01:50:51.235Z"
+                        },
+                        {
+                            "id": 18,
+                            "day": "15/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:50:51.077Z",
+                            "updatedAt": "2022-10-02T01:50:51.077Z"
+                        },
+                        {
+                            "id": 17,
+                            "day": "14/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:50:51.076Z",
+                            "updatedAt": "2022-10-02T01:50:51.076Z"
+                        },
+                        {
+                            "id": 16,
+                            "day": "13/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:50:51.075Z",
+                            "updatedAt": "2022-10-02T01:50:51.075Z"
+                        },
+                        {
+                            "id": 15,
+                            "day": "12/10/2022",
+                            "partialPriceDay": 0,
+                            "createdAt": "2022-10-02T01:50:51.073Z",
+                            "updatedAt": "2022-10-02T01:50:51.073Z"
+                        }
+                    ]
+                }
+            ],
+            "invoice": null
+        }
+    ]
+   }
+       
+   ```
+5. Para poder pagar utilizamos el siguiente endpoint.
 ```
  - /proceso/pagar-reserva/<id_reserva> PUT
 ``` 
@@ -174,4 +444,77 @@ Se crearon 3 procesos principales.
 ``` 
 
 ##Aportaciones Adicionales
+* Se desarrolló un modulo para retornar el listado de dias entre dos fechas, con validaciones de años bisiesto , meses con 31 y 30 dias , y los casos de febrero.
+```
+ export function calcularListadoDeDias(checkIn:string,checkOut:string,numeroNoches:number,precio:number){
+    let fechainicio = checkIn.split('/');
+    let dia=parseInt(fechainicio[0])
+    let mes=parseInt(fechainicio[1])
+    let año=parseInt(fechainicio[2])
+    const Dias=[]
+    for(let i=0;i<numeroNoches;i++){
+        if(i==0){
+            Dias.push({dia:`${dia}/${mes}/${año}`,precio:precio})
+        }
+        else{
+            if(mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12){
+                if(dia==31){
+                    dia=1
+                    if(mes==12){
+                        mes=1
+                        año+=1
+                    }else{
+                        mes+=1
+                    }                    
+                }
+                else dia+=1
+            }else if(mes == 2){
+                if(esBisiesto(año)){
+                    if(dia==29){
+                        dia=1
+                        mes+=1
+                    }
+                    else{
+                        dia+=1
+                    }
+                }else{
+                    if(dia==28){
+                        dia=1
+                        mes+=1
+                    }
+                    else{
+                        dia+=1
+                    }
+                }
+                
+
+            }else{
+                if(dia==30){
+                    dia=1
+                    mes+=1
+                }
+                else{
+                    dia+=1 
+                }
+            }
+            Dias.push({dia:`${dia}/${mes}/${año}`,precio:precio})
+        }
+    }
+    
+    
+    return Dias;
+}
+``` 
+y se utilizo la funcion para determinar un año bisiesto reutilizado de internet
+```
+export function esBisiesto (year:number){
+    return (year % 400 === 0) ? true : 
+                (year % 100 === 0) ? false : 
+                    year % 4 === 0;
+  };
+```
+
+##Futuras aportaciones
+- Validacion de fechas por habitacion para ver disponibilidad o no. 
+- Etc. 
 
