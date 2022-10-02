@@ -6,7 +6,7 @@ export class Room extends BaseEntity{
     id : number
     @Column()
     roomNumber:number
-    @Column()
+    @Column({type: "float",default:0})
     roomPrice:number
     @Column()
     bedsNumber:number
