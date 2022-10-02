@@ -9,12 +9,10 @@ Para poder correr este proyecto de manera local debe clonar el proyecto y despue
 
 
 ```
- - paso 1: npm install
- - paso 2: npm run build
- - paso 3: docker-compose build
- - paso 4: docker-compose run app npm run  m:gen -- src/migrations/migration
- - paso 5: docker-compose run app npm run  m:run
- - paso 6: docker-compose up
+ - paso 1: docker-compose build
+ - paso 2: docker-compose run app npm run  m:gen -- src/migrations/migration
+ - paso 3: docker-compose run app npm run  m:run
+ - paso 4: docker-compose up
 ```  
 
 ## Documentación
