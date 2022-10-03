@@ -25,8 +25,9 @@ export const createReservaCompleta= async (req:Request,res:Response)=>{
         reservation.paymentMethod= paymentMethodSearch as PaymentMethod
         await reservation.save()
         let montoUpdated:number=0
-        await listRoomsReservations.forEach(async(habitacion:any) => {
-            const {checkIn,checkOut,room}=habitacion;
+        // await listRoomsReservations.forEach(async(habitacion:any) => 
+        for (let i=0;i<listRoomsReservations.length;i++){
+            const {checkIn,checkOut,room}=listRoomsReservations[i];
             //Proceso de validacion para ver si la habitacion existe y recuperar sus datos
             const roomDetails=await Room.findOneBy({id:parseInt(room)})
             if(!room)return res.status(404).json({message:"Rooms not exists"})
@@ -51,14 +52,16 @@ export const createReservaCompleta= async (req:Request,res:Response)=>{
             
             //Creacion de reservas detalladas por dia
             const listadoDias=calcularListadoDeDias(checkIn,checkOut,numberOfNights,roomDetails!==null?roomDetails.roomPrice:0)
-            await listadoDias.forEach(async (diaDetalle)=>{
+            // listadoDias.forEach(async (diaDetalle)=>{
+            for (let j=0 ; j<listadoDias.length;j++){
+                let diaDetalle=listadoDias[j]
                 const reservationRoomDay=new ReservationRoomDays()
                 reservationRoomDay.day=diaDetalle.dia
                 reservationRoomDay.partialPriceDay=diaDetalle.precio
                 reservationRoomDay.reservationRoom=reservationRoom
                 await reservationRoomDay.save()
-            })
-        });    
+            }
+        };    
        
         const reservationFinal=await Reservation.find({relations: {
             client: true,
